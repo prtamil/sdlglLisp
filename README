@@ -1,0 +1,14 @@
+gl sample program using common lisp and SDL / OpenGL
+
+Requirements
+===============
+  1. SBCL , Emacs/SLIME,
+  2. QuickLisp
+Installation
+=============
+   (ql:quickload "lispbuilder-sdl")
+   (ql:quickload "cl-opengl")
+
+LOAD and Compile
+=================
+    load and compile sdlgl.lisp 
