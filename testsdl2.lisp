@@ -1,0 +1,31 @@
+(in-package :sdl2-examples)
+(require :sdl2)
+
+(defun test-render-clear (renderer)
+  (sdl2:set-render-draw-color renderer 0 0 0 255)
+  (sdl2:render-clear renderer))
+
+(defun test-render-lines (renderer)
+  (sdl2:with-points ((a 200 200)
+		     (b 300 400)
+		     (c 400 200))
+    (sdl2:set-render-draw-color renderer 90 200 200 255)
+    (multiple-value-bind (points num) (sdl2:points* a b c)
+      (sdl2:render-draw-lines renderer points num))))
+
+(defun line-test ()
+  (sdl2:with-init (:everything)
+    (sdl2:with-window (win :title "SDL2 Test " :flags '(:shown))
+      (sdl2:with-renderer (renderer win :flags '(:accelerated))
+	(sdl2:with-event-loop (:method :poll)
+	  (:keyup
+	   (:keysym keysym)
+	   (when (sdl2:scancode= (sdl2:scancode-value keysym) :scancode-escape)
+	     (sdl2:push-event :quit)))
+	  (:idle
+	   ()
+	   (test-render-clear renderer)
+	   (test-render-lines renderer)
+	   (sdl2:render-present renderer)
+	   (sdl2:delay 33))
+	  (:quit () t))))))
